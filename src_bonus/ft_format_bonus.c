@@ -1,5 +1,16 @@
-#include "ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_format_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: npapashv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/22 03:10:35 by npapashv          #+#    #+#             */
+/*   Updated: 2024/10/23 01:38:48 by npapashv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../src_bonus/ft_printf_bonus.h"
 
 int	ft_format(const char *str, int f_index, va_list args, t_format *format)
 {
@@ -18,7 +29,7 @@ int	ft_format(const char *str, int f_index, va_list args, t_format *format)
 		count += ft_manage_s(va_arg(args, char *), format);
 	else if (str[i] == 'p')
 		count += ft_manage_p(va_arg(args, void *), format);
-	else if (str[i] == 'd' || str[i] =='i')
+	else if (str[i] == 'd' || str[i] == 'i')
 		count += ft_manage_di(va_arg(args, int), format);
 	else if (str[i] == 'u')
 		count += ft_manage_u(va_arg(args, unsigned int), format);
@@ -58,7 +69,7 @@ int	ft_check_format(const char *str, int f_index)
 		return (0);
 	i = ft_skip_format(str, f_index);
 	if (i == f_index + 1)
-	    return (0);
+		return (0);
 	is_conversion = ft_occ_c("cspdiuxX%", str[i - 1]);
 	return (is_conversion);
 }

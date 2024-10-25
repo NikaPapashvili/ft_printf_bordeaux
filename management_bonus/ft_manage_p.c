@@ -1,4 +1,4 @@
-#include "../src/ft_printf.h"
+#include "../src_bonus/ft_printf_bonus.h"
 
 static int	ft_justifyleft(unsigned long adr, t_format *format);
 static int	ft_justifyright(unsigned long adr, t_format *format);
@@ -48,12 +48,12 @@ static int	ft_justifyright(unsigned long adr, t_format *format)
 	min_width = format->width;
 	precision = format->precision;
 	hexalen = ft_get_hexalen(adr);
-	zero_padding = min_width - hexalen - 2;
+	zero_padding = 0;
 	if (format->dot)
 		zero_padding = precision - hexalen;
 	if (zero_padding < 0)
 		zero_padding = 0;
-	count += ft_putnchar(' ', min_width - 2 - hexalen - zero_padding);
+	count += ft_putnchar(' ', min_width - 2 - hexalen);
 	count += ft_putnstr("0x", 2);
 	count += ft_putnchar('0', zero_padding);
 	count += ft_putnbr_uns_base(adr, "0123456789abcdef", 16);

@@ -1,4 +1,4 @@
-#include "../src/ft_printf.h"
+#include "../src_bonus/ft_printf_bonus.h"
 
 
 static	int	ft_get_unumlen(unsigned int n);
@@ -12,6 +12,11 @@ int	ft_manage_u(unsigned int n, t_format *format)
 	if (format == NULL)
 		return (0);
 	count = 0;
+	if (format->dot && format->precision == 0 && n == 0)
+	{
+		count += ft_putnchar(' ', format->width);
+		return (count);
+	}
 	if (format->dash)
 		count += ft_justifyleft(n, format);
 	else

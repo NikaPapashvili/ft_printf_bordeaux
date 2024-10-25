@@ -1,4 +1,4 @@
-#include "../src/ft_printf_bonus.h"
+#include "../src_bonus/ft_printf_bonus.h"
 
 static int	ft_justifyleft(long n, t_format *format);
 static int	ft_justifyright(long n, t_format *format);
@@ -11,6 +11,11 @@ int	ft_manage_di(int n, t_format *format)
 	if (format == NULL)
 		return (0);
 	count = 0;
+	if (format->dot && format->precision == 0 && n == 0)
+	{
+		count += ft_putnchar(' ', format->width);
+		return (count);
+	}
 	if (format->dash)
 		count += ft_justifyleft(n, format);
 	else
@@ -65,12 +70,10 @@ static int	ft_justifyright(long n, t_format *format)
 	int	count;
 	int	t_len;
 	int	num_len;
-	int	zero_pads;
 	char prefix;
 
 	count = 0;
 	num_len = ft_get_numlen(n);
-	zero_pads = 0;
 	prefix = 0;
 	if (n < 0)
 	{
@@ -81,21 +84,24 @@ static int	ft_justifyright(long n, t_format *format)
 		prefix = '+';
 	else if (format->blank)
 		prefix = ' ';
+	t_len = num_len;
 	if (format->dot && format->precision > num_len)
-		zero_pads = format->precision - num_len;
-	else if (!format->dot && format->width > num_len)
-	{
-		zero_pads = format->width - num_len;
-		if (prefix)
-			--zero_pads;
-	}
-	t_len = zero_pads + num_len;
+		t_len = format->precision;
 	if (prefix)
 		++t_len;
-	count += ft_putnchar(' ', format->width - t_len);
-	if (prefix)
-		count += ft_putnchar(prefix, 1);
-	count += ft_putnchar('0', zero_pads);
+	if (format->zero && !format->dot)
+	{
+		if (prefix)
+			count += ft_putnchar(prefix, 1);
+		count += ft_putnchar('0', format->width - t_len);
+	}
+	else
+	{
+		count += ft_putnchar(' ', format->width - t_len);
+		if (prefix)
+			count += ft_putnchar(prefix, 1);
+	}
+	count += ft_putnchar('0', format->precision - num_len);
 	count += ft_putnbr_uns_base(n, "0123456789", 10);
 	return (count);
 }

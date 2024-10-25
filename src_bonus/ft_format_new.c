@@ -1,10 +1,21 @@
-#include "ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_format_new.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: npapashv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/22 03:10:45 by npapashv          #+#    #+#             */
+/*   Updated: 2024/10/23 01:39:40 by npapashv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../src_bonus/ft_printf_bonus.h"
 
 static void	ft_init_format(t_format *format);
 static void	ft_affect_flags(t_format *format, const char c);
 
-// Called only when format is checked
-t_format *ft_format_new(const char *str, int f_index)
+t_format	*ft_format_new(const char *str, int f_index)
 {
 	t_format	*newformat;
 	int			i;

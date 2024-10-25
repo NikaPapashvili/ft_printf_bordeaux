@@ -1,10 +1,10 @@
-#include "../src/ft_printf.h"
+#include "../src_bonus/ft_printf_bonus.h"
 
-static int	ft_justifyleft(unsigned int n, t_format *format, const char *prefix, const char *base);
-static int	ft_justifyright(unsigned int n, t_format *format, const char *prefix, const char *base);
+static int	ft_justifyleft(unsigned int n, t_format *format, char *prefix, char *base);
+static int	ft_justifyright(unsigned int n, t_format *format, char *prefix, char *base);
 static int	ft_get_hexalen(unsigned int n);
 
-int	ft_manage_x(int	n, t_format *format, const char c)
+int	ft_manage_x(int	n, t_format *format, char c)
 {
 	int	count;
 	char *base;
@@ -12,6 +12,12 @@ int	ft_manage_x(int	n, t_format *format, const char c)
 
 	if (format == NULL)
 		return (0);
+	count = 0;
+	if (format->dot && format->precision == 0 && n == 0)
+	{	
+		count += ft_putnchar(' ', format->width);
+		return (count);
+	}
 	prefix = "0x";
 	base = "0123456789abcdef";
 	if (c == 'X')
@@ -19,7 +25,6 @@ int	ft_manage_x(int	n, t_format *format, const char c)
 		prefix = "0X";
 		base = "0123456789ABCDEF";
 	}
-	count = 0;
 	if (format->dash)
 		count += ft_justifyleft(n ,format, prefix, base);
 	else
@@ -27,7 +32,7 @@ int	ft_manage_x(int	n, t_format *format, const char c)
 	return (count);	
 }
 
-static	int	ft_justifyleft(unsigned int n, t_format *format, const char *prefix, const char *base)
+static	int	ft_justifyleft(unsigned int n, t_format *format, char *prefix, char *base)
 {
 	int	count;
 	int	hexalen;
@@ -43,7 +48,7 @@ static	int	ft_justifyleft(unsigned int n, t_format *format, const char *prefix, 
 	return (count);
 }
 
-static	int	ft_justifyright(unsigned int n, t_format *format, const char *prefix, const char *base)
+static	int	ft_justifyright(unsigned int n, t_format *format, char *prefix, char *base)
 {
 	int	count;
 	int	hexalen;
